@@ -154,7 +154,7 @@ async function fetchInitialData() {
     const lat = -6.8743390287, lng = 107.576042138;
 
     const [prayerRes, dateRes, asmaulRes] = await Promise.all([
-      fetch(`https://api.aladhan.com/v1/timings/${y}-${m}-${d}?latitude=${lat}&longitude=${lng}&method=20`),
+      fetch(`https://api.aladhan.com/v1/timings/${y}-${m}-${d}?latitude=${lat}&longitude=${lng}&method=11`),
       fetch(`https://api.aladhan.com/v1/gToH?date=${d}-${m}-${y}`),
       fetch('https://api.myquran.com/v2/husna/semua')
     ]);

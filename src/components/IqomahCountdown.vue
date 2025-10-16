@@ -7,13 +7,13 @@ const props = defineProps({
 });
 
 const audioTick = ref(null);
-const timerProgress = ref(100); // persen progress lingkaran
+const timerProgress = ref(100);
 const initialCountdown = ref(props.countdown || 60);
 const currentCountdown = ref(props.countdown || 60);
 let countdownInterval = null;
 
 // === RADIUS & LINGKARAN ===
-const radius = 180; // radius px
+const radius = 180;
 const circumference = 2 * Math.PI * radius;
 
 // Format waktu (mm:ss)
@@ -49,8 +49,8 @@ function startCountdown() {
       timerProgress.value =
         (currentCountdown.value / initialCountdown.value) * 100;
 
-      // mainkan suara tick di 5 detik terakhir
-      if (currentCountdown.value <= 5 && currentCountdown.value > 0) {
+      // Suara tick di 4 detik terakhir
+      if (currentCountdown.value <= 4 && currentCountdown.value > 0) {
         if (!audioTick.value) {
           audioTick.value = new Audio('/src/assets/sound_tick.mp3');
         }
@@ -67,28 +67,29 @@ function startCountdown() {
 <template>
   <div
     class="fixed inset-0 flex flex-col items-center justify-center 
-           bg-gradient-to-br from-[#0c2461] to-[#1e3799] 
-           text-white z-50 select-none"
+           bg-gradient-to-br from-white via-[#f8f9fa] to-[#e9ecef]
+           text-slate-900 z-50 select-none"
   >
     <h2
-      class="text-5xl sm:text-6xl font-bold mb-6 text-center 
-             drop-shadow-lg tracking-wide"
+      class="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 text-center 
+             drop-shadow-md tracking-wide"
     >
       Hitung Mundur Iqamah {{ prayerName }}
     </h2>
 
-    <div class="relative w-[360px] h-[360px] sm:w-[440px] sm:h-[440px]">
+    <div class="relative w-[65vw] max-w-[460px] aspect-square">
       <svg
         class="w-full h-full transform -rotate-90"
         viewBox="0 0 400 400"
+        preserveAspectRatio="xMidYMid meet"
       >
         <!-- Latar belakang lingkaran -->
         <circle
           cx="200"
           cy="200"
           :r="radius"
-          stroke="rgba(255,255,255,0.2)"
-          stroke-width="20"
+          stroke="rgba(0,0,0,0.08)"
+          stroke-width="22"
           fill="none"
         />
         <!-- Lingkaran progress -->
@@ -98,17 +99,17 @@ function startCountdown() {
           :r="radius"
           fill="none"
           stroke-linecap="round"
-          stroke-width="24"
-          stroke="url(#iqamahGradient)"
+          stroke-width="26"
+          stroke="url(#goldGradient)"
           :stroke-dasharray="circumference"
           :stroke-dashoffset="dashOffset"
           class="transition-all duration-1000 ease-linear 
-                 drop-shadow-[0_0_20px_rgba(255,200,50,0.7)]"
+                 drop-shadow-[0_0_20px_rgba(255,193,7,0.6)]"
         />
         <defs>
-          <linearGradient id="iqamahGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#fcbf49" />
-            <stop offset="100%" stop-color="#f77f00" />
+          <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FFD700" />
+            <stop offset="100%" stop-color="#B8860B" />
           </linearGradient>
         </defs>
       </svg>
@@ -116,14 +117,17 @@ function startCountdown() {
       <!-- Angka countdown -->
       <div
         class="absolute inset-0 flex items-center justify-center 
-               text-[8rem] sm:text-[10rem] font-black tracking-tighter 
-               tabular-nums leading-none drop-shadow-lg"
+               text-[18vw] sm:text-[12rem] md:text-[14rem] 
+               font-extrabold tracking-tighter tabular-nums 
+               leading-none drop-shadow-lg text-slate-900"
       >
         {{ formattedTime }}
       </div>
     </div>
 
-    <p class="text-2xl sm:text-3xl text-white/80 mt-10 italic">
+    <p
+      class="text-2xl sm:text-3xl text-slate-700 mt-10 italic font-medium text-center px-4"
+    >
       "Luruskan dan rapatkan shaf."
     </p>
   </div>
