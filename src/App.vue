@@ -151,7 +151,7 @@ async function fetchInitialData() {
   try {
     const now = new Date();
     const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
-    const lat = -6.8743390287, lng = 107.576042138;
+    const lat = -6.8731, lng = 107.5769;
 
     const [prayerRes, dateRes, asmaulRes] = await Promise.all([
       fetch(`https://api.aladhan.com/v1/timings/${y}-${m}-${d}?latitude=${lat}&longitude=${lng}&method=11`),
