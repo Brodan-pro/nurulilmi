@@ -151,11 +151,10 @@ async function fetchInitialData() {
   try {
     const now = new Date();
     const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+    const lat = -6.8715, lng = 107.5767;
 
-    // --- Ganti hanya bagian API jadwal sholat ---
-    const cityID = 1219; // Bandung / ULBI
     const [prayerRes, dateRes, asmaulRes] = await Promise.all([
-      fetch(`https://api.myquran.com/v2/sholat/jadwal/${cityID}/${y}/${m}`),
+      fetch(`https://api.aladhan.com/v1/timings/${y}-${m}-${d}?latitude=${lat}&longitude=${lng}&method=20&timezonestring=Asia/Jakarta`),
       fetch(`https://api.aladhan.com/v1/gToH?date=${d}-${m}-${y}`),
       fetch('https://api.myquran.com/v2/husna/semua')
     ]);
@@ -164,18 +163,11 @@ async function fetchInitialData() {
     const dateJson = await dateRes.json();
     const asmaulData = await asmaulRes.json();
 
-    // --- Ambil jadwal sholat untuk hari ini ---
-    const todayKey = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-    const t = prayerJson.data.jadwal[todayKey];
-
+    // Jadwal sholat
+    const t = prayerJson.data.timings;
     prayerData.value = {
-      imsak: t.imsak,
-      subuh: t.subuh,
-      terbit: t.terbit,
-      dzuhur: t.dzuhur,
-      ashar: t.ashar,
-      maghrib: t.maghrib,
-      isya: t.isya
+      imsak: t.Imsak, subuh: t.Fajr, terbit: t.Sunrise, dzuhur: t.Dhuhr,
+      ashar: t.Asr, maghrib: t.Maghrib, isya: t.Isha
     };
 
     // Hijriyah
